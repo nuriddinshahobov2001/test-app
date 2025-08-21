@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Traits;
+
+use App\Interfaces\ProductRepositoryInterface;
+use App\Models\Product;
+use App\Handlers\ImageHandler;
+
+trait ProductTrait
+{
+
+    public function createLocation(Product $product, array $locationsData, ProductRepositoryInterface $repository): void
+    {
+        $locations = array_map(fn($location) => [
+            'product_id' => $product->id,
+            'location_name' => $location['name'],
+            'selling_price' => (float)$location['sale_price'],
+            'purchase_price' => (float)$location['purchase_price'],
+            'stock' => (int)$location['stock'],
+            'created_at' => now(),
+            'updated_at' => now()
+        ], $locationsData);
+        $repository->createLocation($locations);
+    }
+
+    public function createVariation(Product $product, array $productData, ProductRepositoryInterface $repository): void
+    {
+        $variations = array_map(fn($variation) => [
+            'product_id' => $product->id,
+            'name' => $variation['name'],
+            'options' => json_encode(
+                array_filter(
+                    array_map('trim', explode(',', $variation['values']))
+                )
+            ),
+            'created_at' => now(),
+            'updated_at' => now()
+        ], $productData);
+        $repository->createProductVariation($variations);
+    }
+
+    public function createCombo(Product $product, array $productData, ProductRepositoryInterface $repository): void
+    {
+        $compos = array_map(fn($compo) => [
+            'product_id' => $product->id,
+            'combo_id' => $compo['product'],
+            'quantity' => $compo['quantity'],
+            'created_at' => now(),
+            'updated_at' => now()
+        ], $productData);
+        $repository->createProductCombo($compos);
+    }
+
+    public function createImage(Product $product, array $imageData, ProductRepositoryInterface $repository): void
+    {
+        $images = (new ImageHandler)->processProductImages($product, $imageData);
+        $result = array_map(function ($image) use ($product) {
+            return [
+                'product_id' => $product->id,
+                'path' => $image['path'],
+                'filename' => $image['filename'],
+                'filesize' => $image['size'],
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+        }, $images);
+        if (!empty($result)) {
+            $repository->createImage($result);
+        }
+    }
+}
