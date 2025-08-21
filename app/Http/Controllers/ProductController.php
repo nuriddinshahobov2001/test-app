@@ -9,7 +9,6 @@ use App\Models\Currency;
 use App\Models\Product;
 use App\Models\ProductType;
 use App\Services\ProductService;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -20,7 +19,8 @@ class ProductController extends Controller
 
     public function index(): View
     {
-        return view('product.index');
+        $products = $this->productService->getProducts();
+        return view('product.index', compact('products'));
     }
 
     public function create(): View

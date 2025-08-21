@@ -23,17 +23,26 @@
                 </thead>
                 <!-- Тело таблицы -->
                 <tbody class="bg-white divide-y divide-gray-200">
-                <tr class="hover:bg-gray-50 transition-colors duration-150">
+                @foreach($products as $product)
+                    <tr class="hover:bg-gray-50 transition-colors duration-150">
 
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">ivan@example.com</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Активен</span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Фрукты</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12.05.2020</td>
-                </tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">{{ $product->name }}</div>
+                        </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @if($product->product_type_id == 1)
+                                <span class="px-3 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Простой</span>
+                            @elseif($product->product_type_id == 2)
+                                <span class="px-3 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-200 text-yellow-800">Вариация</span>
+                            @else
+                                <span class="px-3 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-200 text-blue-800">Комбо</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $product->category->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $product->created_at }}</td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>

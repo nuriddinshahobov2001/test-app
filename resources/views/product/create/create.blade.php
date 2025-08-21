@@ -30,7 +30,7 @@
                            class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
                             <i class="fas fa-cloud-upload-alt text-gray-400 text-3xl mb-2"></i>
-                            <p class="text-sm text-gray-500">Перетащите фото или кликните для загрузки</p>
+                            <p class="text-sm text-gray-500">Кликните для загрузки</p>
                         </div>
                         <input id="photos" type="file" class="hidden" name="photos[]" multiple accept="image/*">
                     </label>
