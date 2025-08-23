@@ -25,7 +25,12 @@ interface ProductRepositoryInterface
 
     public function updateLocation(array $locations, string $productId, array $locationNames);
 
+    public function updateCombos(array $combos, string $productId, array $combosId);
     public function deleteLocation(string $id);
+
+    public function deleteVariations(string $productId);
+
+    public function deleteCombos(string $productId);
 
     public function updateVariations(array $variations, string $productId, array $variationNames);
 }

@@ -56,20 +56,29 @@ class ProductService
 
     public function update(array $safe, $id)
     {
-        $product = $this->repository->getProductById($id);
-        $safe['sku'] = $product->sku ?? $this->generateSku();
-        $updatedProduct = $this->repository->update($safe, $product->id);
-        if (empty($safe['locations'])) {
-            $this->deleteVariations($updatedProduct, $this->repository);
-        } else {
-            $this->updateLocations($updatedProduct, $safe['locations'], $this->repository);
-        }
-        $productType = (int)$safe['product_type_id'];
-        if ($productType === 2) {
-            $this->updateVariation($product, $safe['options'], $this->repository);
-        }
-//        DB::transaction(function () use ($safe, $id) {
-//        });
+        DB::transaction(function () use ($safe, $id) {
+            $product = $this->repository->getProductById($id);
+            $safe['sku'] = $product->sku ?? $this->generateSku();
+            $updatedProduct = $this->repository->update($safe, $product->id);
+            if (empty($safe['locations'])) {
+                $this->deleteLocations($updatedProduct, $this->repository);
+            } else {
+                $this->updateLocations($updatedProduct, $safe['locations'], $this->repository);
+            }
+            $productType = (int)$safe['product_type_id'];
+            if ($productType === 1) {
+                $this->deleteCombos($updatedProduct, $this->repository);
+                $this->deleteVariations($updatedProduct, $this->repository);
+            }
+            if ($productType === 2) {
+                $this->deleteCombos($updatedProduct, $this->repository);
+                $this->updateVariation($product, $safe['options'], $this->repository);
+            }
+            if ($productType === 3) {
+                $this->deleteVariations($updatedProduct, $this->repository);
+                $this->updateCombos($updatedProduct, $safe['components'], $this->repository);
+            }
+        });
     }
 
 

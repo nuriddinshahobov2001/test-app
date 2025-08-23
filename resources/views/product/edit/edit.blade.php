@@ -110,22 +110,26 @@
                             </button>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Продукт</label>
-                                <select name="components[${componentId}][product]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                                    <option value="">Выберите продукт</option>
-                                    @foreach($products as $prod)
-                <option value="{{ $prod->id }}">{{ $prod->name }}</option>
-                                    @endforeach
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Количество</label>
-                <input type="number" name="components[${componentId}][quantity]" placeholder="Введите количество" min="1" value="1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                            </div>
+                            <x-form.select
+                                name="components[${componentId}][product]"
+                                label="Продукт"
+                                default-option="Выберите продукт"
+                                :options="$products"
+                                required="true"
+                                id="category"
+                            />
+                            <x-form.input
+                                name="components[${componentId}][quantity]"
+                                label="Количество"
+                                type="number"
+                                required="true"
+                                placeholder="Введите количество"
+                                min="1"
+                                value="1"
+                            />
                         </div>
                     </div>
-                `;
+                                `;
 
                 componentsContainer.append(componentHtml);
             });

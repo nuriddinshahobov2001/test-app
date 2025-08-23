@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->foreignId('combo_id')->constrained('products')->cascadeOnDelete();
             $table->float('quantity')->default(0);
             $table->timestamps();
+
+            $table->unique(['product_id', 'combo_id']);
         });
     }
 

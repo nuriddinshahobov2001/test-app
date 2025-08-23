@@ -109,8 +109,35 @@ trait ProductTrait
         $repository->updateVariations($variations, $product->id, $variationNames);
     }
 
-    public function deleteVariations(Product $product, ProductRepositoryInterface $repository): void
+    public function updateCombos(Product $product, array $combosData, ProductRepositoryInterface $repository): void
+    {
+        $combos = [];
+        $combosId = [];
+        foreach ($combosData as $combo) {
+            $combos[] = [
+                'product_id' => $product->id,
+                'combo_id' => $combo['product'],
+                'quantity' => $combo['quantity'],
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+            $combosId[] = $combo['product'];
+        }
+        $repository->updateCombos($combos, $product->id, $combosId);
+    }
+
+    public function deleteLocations(Product $product, ProductRepositoryInterface $repository): void
     {
         $repository->deleteLocation($product->id);
+    }
+
+    public function deleteVariations(Product $product, ProductRepositoryInterface $repository): void
+    {
+        $repository->deleteVariations($product->id);
+    }
+
+    public function deleteCombos(Product $product, ProductRepositoryInterface $repository): void
+    {
+        $repository->deleteCombos($product->id);
     }
 }

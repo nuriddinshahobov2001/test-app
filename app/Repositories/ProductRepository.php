@@ -82,16 +82,32 @@ class ProductRepository implements ProductRepositoryInterface
             ->delete();
     }
 
+    public function updateCombos(array $combos, string $productId, array $combosId): void
+    {
+        ProductCombo::where('product_id', $productId)->delete();
+        $this->createProductCombo($combos);
+    }
+
     public function updateVariations(array $variations, string $productId, array $variationNames): void
     {
         ProductVariation::query()->upsert(
             $variations,
             ['product_id', 'name'],
-            ['options']
+            ['options', 'updated_at']
         );
         ProductVariation::query()->where('product_id', $productId)
             ->whereNotIn('name', $variationNames)
             ->delete();
+    }
+
+    public function deleteVariations(string $productId): void
+    {
+        ProductVariation::query()->where('product_id', $productId)->delete();
+    }
+
+    public function deleteCombos(string $productId): void
+    {
+        ProductCombo::query()->where('product_id', $productId)->delete();
     }
 
     public function deleteLocation(string $id): void
