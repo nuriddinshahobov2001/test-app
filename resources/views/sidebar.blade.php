@@ -5,13 +5,13 @@
             <li class="mb-2">
                 <a href="{{ route('dashboard-index') }}" class="flex items-center p-2 rounded-lg {{ request()->is('/') ? 'bg-gray-700' : '' }}">
                     <i class="fas fa-tachometer-alt mr-3"></i>
-                    <span>Dashboard</span>
+                    <span>Панель</span>
                 </a>
             </li>
             <li class="mb-2">
                 <a href="{{ route('products.index') }}" class="flex items-center p-2 rounded-lg {{ (request()->is('products') or request()->is('products/*')) ? 'bg-gray-700' : '' }}">
                     <i class="fas fa-ice-cream mr-3"></i>
-                    <span>Products</span>
+                    <span>Продукты</span>
                 </a>
             </li>
         </ul>

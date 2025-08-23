@@ -2,6 +2,7 @@
 
 namespace App\Interfaces;
 
+
 interface ProductRepositoryInterface
 {
     public function getProducts();
@@ -17,4 +18,14 @@ interface ProductRepositoryInterface
     public function createLocation(array $location);
 
     public function createImage(array $images);
+
+    public function deleteProduct(string $id);
+
+    public function update(array $data, string $id);
+
+    public function updateLocation(array $locations, string $productId, array $locationNames);
+
+    public function deleteLocation(string $id);
+
+    public function updateVariations(array $variations, string $productId, array $variationNames);
 }

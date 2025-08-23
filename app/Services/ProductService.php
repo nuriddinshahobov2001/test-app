@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Handlers\ImageHandler;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Models\Product;
 use App\Traits\GenerateSKU;
@@ -40,6 +41,35 @@ class ProductService
                 $this->createCombo($product, $productData['components'], $this->repository);
             }
         });
+    }
+
+    public function delete(string $id): void
+    {
+        $product = $this->repository->getProductById($id);
+        if (!empty($product)) {
+            foreach ($product->photos as $photo) {
+                (new ImageHandler)->deleteImage($photo->path);
+            }
+            $this->repository->deleteProduct($id);
+        }
+    }
+
+    public function update(array $safe, $id)
+    {
+        $product = $this->repository->getProductById($id);
+        $safe['sku'] = $product->sku ?? $this->generateSku();
+        $updatedProduct = $this->repository->update($safe, $product->id);
+        if (empty($safe['locations'])) {
+            $this->deleteVariations($updatedProduct, $this->repository);
+        } else {
+            $this->updateLocations($updatedProduct, $safe['locations'], $this->repository);
+        }
+        $productType = (int)$safe['product_type_id'];
+        if ($productType === 2) {
+            $this->updateVariation($product, $safe['options'], $this->repository);
+        }
+//        DB::transaction(function () use ($safe, $id) {
+//        });
     }
 
 

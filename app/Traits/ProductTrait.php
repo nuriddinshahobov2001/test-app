@@ -68,4 +68,49 @@ trait ProductTrait
             $repository->createImage($result);
         }
     }
+
+    public function updateLocations(Product $product, array $locationsData, ProductRepositoryInterface $repository): void
+    {
+        $locations = [];
+        $locationNames = [];
+        foreach ($locationsData as $loc) {
+            $locations[] = [
+                'product_id' => $product->id,
+                'location_name' => $loc['location_name'],
+                'selling_price' => $loc['selling_price'] ?? 0,
+                'purchase_price' => $loc['purchase_price'] ?? 0,
+                'stock' => $loc['stock'] ?? 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+            $locationNames[] = $loc['location_name'];
+        }
+        $repository->updateLocation($locations, $product->id, $locationNames);
+    }
+
+    public function updateVariation(Product $product, array $variationsData, ProductRepositoryInterface $repository): void
+    {
+        $variations = [];
+        $variationNames = [];
+        foreach ($variationsData as $variation) {
+            $variations[] = [
+                'product_id' => $product->id,
+                'name' => $variation['name'],
+                'options' => json_encode(
+                    array_filter(
+                        array_map('trim', explode(',', $variation['values']))
+                    )
+                ),
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+            $variationNames[] = $variation['name'];
+        }
+        $repository->updateVariations($variations, $product->id, $variationNames);
+    }
+
+    public function deleteVariations(Product $product, ProductRepositoryInterface $repository): void
+    {
+        $repository->deleteLocation($product->id);
+    }
 }

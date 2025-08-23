@@ -15,7 +15,7 @@
 
 <div>
     <label for="{{ $id }}" class="block text-sm font-medium text-gray-700 mb-1">
-        {{ $label }}
+        {{ !empty($label) ? $label :'' }}
         @if($required) <span class="text-red-500">*</span> @endif
     </label>
     <input

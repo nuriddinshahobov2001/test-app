@@ -16,9 +16,9 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::query()->get();
     }
 
-    public function getProductById($id)
+    public function getProductById($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|Product|null
     {
-        // TODO: Implement getProductById() method.
+        return Product::query()->findOrFail($id);
     }
 
     public function createProductSimple(array $product)
@@ -45,4 +45,58 @@ class ProductRepository implements ProductRepositoryInterface
     {
         ProductImage::query()->insert($images);
     }
+
+    public function deleteProduct(string $id): void
+    {
+        Product::query()->find($id)->delete();
+    }
+
+    public function update(array $data, string $id): ?Product
+    {
+        $updated = Product::query()->where('id', $id)->update([
+            'name' => $data['name'],
+            'product_type_id' => $data['product_type_id'],
+            'brand_id' => $data['brand_id'],
+            'category_id' => $data['category_id'],
+            'currency_id' => $data['currency_id'],
+            'sku' => $data['sku'],
+        ]);
+
+        if ($updated) {
+            return $this->getProductById($id);
+        }
+
+        return null;
+    }
+
+
+    public function updateLocation(array $locations, string $productId, array $locationNames): void
+    {
+        ProductLocation::query()->upsert(
+            $locations,
+            ['product_id', 'location_name'],
+            ['selling_price', 'purchase_price', 'stock', 'updated_at']
+        );
+        ProductLocation::query()->where('product_id', $productId)
+            ->whereNotIn('location_name', $locationNames)
+            ->delete();
+    }
+
+    public function updateVariations(array $variations, string $productId, array $variationNames): void
+    {
+        ProductVariation::query()->upsert(
+            $variations,
+            ['product_id', 'name'],
+            ['options']
+        );
+        ProductVariation::query()->where('product_id', $productId)
+            ->whereNotIn('name', $variationNames)
+            ->delete();
+    }
+
+    public function deleteLocation(string $id): void
+    {
+        ProductLocation::query()->where('product_id', $id)->delete();
+    }
+
 }

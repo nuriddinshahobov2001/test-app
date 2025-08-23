@@ -31,10 +31,11 @@
 
         <option selected value="">{{ $defaultOption }}</option>
         @foreach($options as $value)
-            <option value="{{ $value->id }}">
+            <option value="{{ $value->id }}" {{ $selected == $value->id ? 'selected' : '' }}>
                 {{ $value->name }}
             </option>
         @endforeach
+
     </select>
 
     {{--    @error($name)--}}

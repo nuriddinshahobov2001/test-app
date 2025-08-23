@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->string('name');
             $table->json('options');
             $table->timestamps();
+
+            $table->unique(['product_id', 'name']);
         });
     }
 
