@@ -140,7 +140,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         return ProductLocation::query()->sum('selling_price');
     }
-    public function getProductsApi()
+    public function getProductsApi(): \Illuminate\Database\Eloquent\Collection
     {
         return Product::query()->get();
     }

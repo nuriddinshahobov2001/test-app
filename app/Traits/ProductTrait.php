@@ -5,7 +5,6 @@ namespace App\Traits;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Models\Product;
 use App\Handlers\ImageHandler;
-use App\Models\ProductImage;
 
 trait ProductTrait
 {

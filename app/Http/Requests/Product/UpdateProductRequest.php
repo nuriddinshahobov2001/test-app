@@ -65,7 +65,6 @@ class UpdateProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            // Общие
             'name.required' => 'Название продукта обязательно.',
             'name.string' => 'Название продукта должно быть строкой.',
             'type.required' => 'Тип продукта обязателен.',
@@ -74,7 +73,6 @@ class UpdateProductRequest extends FormRequest
             'category.exists' => 'Выбранная категория не существует.',
             'currency.exists' => 'Выбранная валюта не существует.',
 
-            // Вариация (type = 2)
             'options.required' => 'Необходимо указать хотя бы одну вариацию.',
             'options.array' => 'Вариация должны быть массивом.',
             'options.*.name.required' => 'Название каждой вариации обязательно.',
@@ -82,7 +80,6 @@ class UpdateProductRequest extends FormRequest
             'options.*.values.required' => 'Значения вариации обязательны.',
             'options.*.values.string' => 'Значения вариации должны быть строкой.',
 
-            // Комбо (type = 3)
             'components.required' => 'Необходимо указать хотя бы один состав.',
             'components.array' => 'Составы должны быть массивом.',
             'components.*.product.required' => 'Для каждого состава нужно указать продукт.',

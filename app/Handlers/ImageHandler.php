@@ -12,9 +12,7 @@ class ImageHandler
     private const ALLOWED_MIME_TYPES = [
         'image/jpeg',
         'image/png',
-        'image/gif',
-        'image/webp',
-        'image/svg+xml'
+        'image/jpg',
     ];
 
     private const MAX_FILE_SIZE = 5242880; // 5MB
@@ -29,7 +27,6 @@ class ImageHandler
                     $processedImages[] = $processedImage;
                 }
             } catch (\Exception $e) {
-                report($e); // Логируем ошибку
                 continue;
             }
         }
@@ -46,12 +43,12 @@ class ImageHandler
 
         return [
             'product_id' => $product->id,
-            'path'       => $path,
-            'filename'   => $fileName,
+            'path' => $path,
+            'filename' => $fileName,
             'original_name' => $image->getClientOriginalName(),
-            'mime_type'  => $image->getMimeType(),
-            'size'       => $image->getSize(),
-            'disk'       => 'public',
+            'mime_type' => $image->getMimeType(),
+            'size' => $image->getSize(),
+            'disk' => 'public',
             'created_at' => now(),
             'updated_at' => now(),
         ];

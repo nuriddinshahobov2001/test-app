@@ -18,9 +18,9 @@ class ProductController extends Controller
     public function count()
     {
         return response()->json([
-            'Общий запас по всем продуктам' => $this->productService->calculateTotalStock(),
-            'Общая сумма продажной стоимости' => $this->productService->calculateTotalPurchase(),
-            'Общая сумма закупочной стоимости' => $this->productService->calculateTotalSelling(),
+            'total_stock' => $this->productService->calculateTotalStock(),
+            'total_purchase_amount' => $this->productService->calculateTotalPurchase(),
+            'total_selling_amount' => $this->productService->calculateTotalSelling(),
         ]);
     }
 

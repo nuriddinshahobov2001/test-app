@@ -65,7 +65,6 @@ class StoreProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            // Общие
             'name.required' => 'Название продукта обязательно.',
             'name.string' => 'Название продукта должно быть строкой.',
             'type.required' => 'Тип продукта обязателен.',
@@ -74,7 +73,6 @@ class StoreProductRequest extends FormRequest
             'category.exists' => 'Выбранная категория не существует.',
             'currency.exists' => 'Выбранная валюта не существует.',
 
-            // Вариация (type = 2)
             'options.required' => 'Необходимо указать хотя бы одну опцию.',
             'options.array' => 'Опции должны быть массивом.',
             'options.*.name.required' => 'Название каждой опции обязательно.',
@@ -82,7 +80,6 @@ class StoreProductRequest extends FormRequest
             'options.*.values.required' => 'Значения опции обязательны.',
             'options.*.values.string' => 'Значения опции должны быть строкой.',
 
-            // Комбо (type = 3)
             'components.required' => 'Необходимо указать хотя бы один компонент.',
             'components.array' => 'Компоненты должны быть массивом.',
             'components.*.product.required' => 'Для каждого компонента нужно указать продукт.',
