@@ -19,6 +19,7 @@ class UpdateProductRequest extends FormRequest
             'currency_id' => ['nullable', 'numeric', 'exists:currencies,id', 'min:0'],
             'photos' => ['sometimes', 'nullable', 'array'],
             'locations' => ['sometimes', 'nullable', 'array'],
+            'photos_to_delete' => ['sometimes', 'nullable', 'array'],
         ];
 
         return array_merge($rules, $this->getTypeSpecificRules());

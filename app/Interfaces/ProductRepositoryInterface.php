@@ -33,4 +33,16 @@ interface ProductRepositoryInterface
     public function deleteCombos(string $productId);
 
     public function updateVariations(array $variations, string $productId, array $variationNames);
+
+    public function deletePhoto(string $id);
+
+    public function getPhotos(string $id, array $ids);
+
+    public function calculateTotalStock();
+
+    public function calculateTotalPurchase();
+
+    public function calculateTotalSelling();
+
+    public function getProductsApi();
 }

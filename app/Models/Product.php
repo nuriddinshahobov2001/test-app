@@ -27,14 +27,24 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function locations()
+    public function brand(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(ProductLocation::class, 'product_id');
+        return $this->belongsTo(Brand::class, 'brand_id');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(ProductType::class, 'product_type_id');
     }
 
     public function currency(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Currency::class, 'currency_id');
+    }
+
+    public function locations()
+    {
+        return $this->hasMany(ProductLocation::class, 'product_id');
     }
 
     public function variations()
@@ -50,5 +60,19 @@ class Product extends Model
     public function photos()
     {
         return $this->hasMany(ProductImage::class, 'product_id');
+    }
+
+
+    public function getTotalStockAttribute()
+    {
+        return $this->locations->sum('stock');
+    }
+    public function getPurchasePriceAttribute()
+    {
+        return $this->locations->sum('purchase_price');
+    }
+    public function getSellingPriceAttribute()
+    {
+        return $this->locations->sum('selling_price');
     }
 }

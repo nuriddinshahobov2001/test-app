@@ -65,6 +65,13 @@ class ProductService
             } else {
                 $this->updateLocations($updatedProduct, $safe['locations'], $this->repository);
             }
+            if (!empty($safe['photos'])) {
+                $this->createImage($product, $safe['photos'], $this->repository);
+            }
+            if ($safe['photos_to_delete']) {
+                $photos = $this->repository->getPhotos($updatedProduct->id, $safe['photos_to_delete']);
+                $this->deletePhotos($photos->toArray(), $this->repository);
+            }
             $productType = (int)$safe['product_type_id'];
             if ($productType === 1) {
                 $this->deleteCombos($updatedProduct, $this->repository);

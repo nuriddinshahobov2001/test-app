@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Models\Product;
 use App\Handlers\ImageHandler;
+use App\Models\ProductImage;
 
 trait ProductTrait
 {
@@ -139,5 +140,14 @@ trait ProductTrait
     public function deleteCombos(Product $product, ProductRepositoryInterface $repository): void
     {
         $repository->deleteCombos($product->id);
+    }
+
+    public function deletePhotos(array $photoData, ProductRepositoryInterface $repository): void
+    {
+        $imageHandler = new ImageHandler();
+        foreach ($photoData as $photo) {
+            $imageHandler->deleteImage($photo['path']);
+            $repository->deletePhoto($photo['id']);
+        }
     }
 }

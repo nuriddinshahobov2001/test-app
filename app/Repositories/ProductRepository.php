@@ -115,4 +115,33 @@ class ProductRepository implements ProductRepositoryInterface
         ProductLocation::query()->where('product_id', $id)->delete();
     }
 
+    public function deletePhoto(string $id): void
+    {
+        ProductImage::query()->where('id', $id)->delete();
+    }
+
+    public function getPhotos(string $id, array $ids)
+    {
+        return ProductImage::where('product_id', $id)
+            ->whereIn('id', $ids)
+            ->get();
+    }
+
+    public function calculateTotalStock()
+    {
+        return ProductLocation::query()->sum('stock');
+    }
+
+    public function calculateTotalPurchase()
+    {
+        return ProductLocation::query()->sum('purchase_price');
+    }
+    public function calculateTotalSelling()
+    {
+        return ProductLocation::query()->sum('selling_price');
+    }
+    public function getProductsApi()
+    {
+        return Product::query()->get();
+    }
 }

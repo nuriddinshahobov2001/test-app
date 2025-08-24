@@ -26,9 +26,7 @@
             @include('product.edit.variation')
             @include('product.edit.combo')
 
-            @if(!($product->photos)->isEmpty())
-                @include('product.edit.photos')
-            @endif
+            @include('product.edit.photos')
             <!-- Кнопки отправки формы -->
             <div class="border-t border-gray-200 pt-6 flex justify-end space-x-3">
                 <a href="{{ route('products.index') }}"
